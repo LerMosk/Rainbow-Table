@@ -27,7 +27,7 @@ public class DbWorker {
         }
     }
 
-    void addToDatabase(String password, String hash){
+    public void addToDatabase(String password, String hash){
         try {
             PreparedStatement preparedStmt = insertors.get(hash.charAt(0));
             preparedStmt.setString(1, password);
@@ -38,7 +38,7 @@ public class DbWorker {
         }
     }
 
-    void addToDatabase(List<List<Integer>> reductions){
+    public void addToDatabase(List<List<Integer>> reductions){
         try {
             String queryInsert = " insert into reductions"  + " values (?, ?)";
             PreparedStatement preparedStmtReduction = conn.prepareStatement(queryInsert);
@@ -52,7 +52,7 @@ public class DbWorker {
         }
     }
 
-    List<List<Integer>> getReductions(){
+    public List<List<Integer>> getReductions(){
         List<List<Integer>> reductions = new ArrayList<>();
         try {
             String selectQuery = "select REDUCTION from REDUCTIONS order by serial_number";
@@ -72,7 +72,7 @@ public class DbWorker {
     /**
     @return password
     */
-    String findHash(String hash){
+    public String findHash(String hash){
         try {
             PreparedStatement preparedStmt = selectors.get(hash.charAt(0));
             preparedStmt.setString(1, hash);
@@ -86,7 +86,7 @@ public class DbWorker {
         return null;
     }
 
-    void finishWorkWithDb(){
+    public void finishWorkWithDb(){
         try {
             conn.close();
         } catch (SQLException e) {

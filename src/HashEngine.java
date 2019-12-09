@@ -19,13 +19,13 @@ public abstract class HashEngine {
         return Hashing.sha256().hashString(password, StandardCharsets.UTF_8);
     }
 
-    String getReductionPassword(byte[] hash, int step) {
+    protected String getReductionPassword(byte[] hash, int step) {
         List<Integer> reduction = reductions.get(step);
         final SecureRandom random = new SecureRandom(getInitArray(hash, reduction));
         return getRandomWord(random);
     }
 
-    String getRandomWord(SecureRandom random) {
+    protected String getRandomWord(SecureRandom random) {
         StringBuilder password = new StringBuilder();
         for (int i = 0; i < PASSWORD_LENGTH; i++) {
             password.append(alphabet[random.nextInt(alphabet.length)]);
@@ -33,7 +33,7 @@ public abstract class HashEngine {
         return password.toString();
     }
 
-    byte[] getInitArray(byte[] hash, List<Integer> reduction) {
+    protected byte[] getInitArray(byte[] hash, List<Integer> reduction) {
         byte[] initArray = new byte[reduction.size()];
         for (int i = 0; i < reduction.size(); i++) {
             initArray[i] = hash[reduction.get(i)];
